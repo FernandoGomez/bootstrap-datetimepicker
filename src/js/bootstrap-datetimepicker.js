@@ -960,9 +960,35 @@ THE SOFTWARE.
             }
             getPickerInput().val(formatted);
             picker.element.data('date', formatted);
+            var scope = angular.element(picker.element).scope();
+            var model = picker.element.context.firstElementChild.attributes[3].value;
+            setOnModel(model, scope, formatted);
+            
             if (!picker.options.pickTime) {
                 picker.hide();
             }
+        },
+
+        setOnModel = function(model, scope, formatted) {
+            var modelAndProperty = model.split('.');
+            var currentObject;
+            var propertyName;
+
+            var modelName = modelAndProperty[0];
+            if (modelAndProperty.length > 2) {
+                currentObject = modelAndProperty[1];
+                propertyName = modelAndProperty[2];
+            } else {
+                propertyName = modelAndProperty[1];
+            }
+
+            scope.$apply(function () {
+                if (currentObject) {
+                    scope[modelName][currentObject][propertyName] = formatted;
+                } else {
+                    scope[modelName][propertyName] = formatted;
+                }
+                })
         },
 
         checkDate = function (direction, unit, amount) {
