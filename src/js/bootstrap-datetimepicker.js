@@ -961,7 +961,7 @@ THE SOFTWARE.
             getPickerInput().val(formatted);
             picker.element.data('date', formatted);
             var scope = angular.element(picker.element).scope();
-            var model = picker.element.context.firstElementChild.attributes[3].value;
+            var model = picker.element.context.firstElementChild.attributes.getNamedItem("ng-model").value;
             setOnModel(model, scope, formatted);
             
             if (!picker.options.pickTime) {
